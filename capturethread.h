@@ -21,6 +21,7 @@
 #include <fstream>  // Для std::ifstream
 
 #include <curl/curl.h> // для CURL
+#include "MapObject.h"
 
 // Forward declaration для MapObject, если MapObject не выносится в отдельный файл
 // Если MapObject вынесен, включите его заголовочный файл

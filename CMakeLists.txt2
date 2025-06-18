@@ -1,0 +1,89 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(Screen VERSION 0.1 LANGUAGES CXX)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Укажите путь к CURL И К QT
+# Замените "/path/to/your/Qt/installation" на ваш реальный путь к Qt
+# Путь к Qt должен быть до директории, которая содержит bin, lib, include и т.д.
+# Например: /opt/Qt/5.15.2/gcc_64 или /home/user/Qt/6.5.0/gcc_64
+set(CMAKE_PREFIX_PATH "/home/ssv/curl-7.84.0;/path/to/your/Qt/installation")
+
+# Теперь явно ищем Qt6, затем Qt5
+find_package(Qt6 COMPONENTS Widgets Core Gui)
+if (NOT Qt6_FOUND)
+    find_package(Qt5 COMPONENTS Widgets Core Gui)
+endif()
+
+if (NOT Qt5_FOUND AND NOT Qt6_FOUND)
+    message(FATAL_ERROR "Could not find Qt5 or Qt6. Please check your CMAKE_PREFIX_PATH.")
+endif()
+
+# Установим QT_VERSION_MAJOR вручную, если find_package не сделал это
+if (Qt6_FOUND)
+    set(QT_VERSION_MAJOR 6)
+elseif (Qt5_FOUND)
+    set(QT_VERSION_MAJOR 5)
+endif()
+
+find_package(CURL REQUIRED)
+message(STATUS "CURL_LIBRARIES: ${CURL_LIBRARIES}")
+
+set(PROJECT_SOURCES
+    main.cpp
+    snapshotapp.h
+    snapshotapp.cpp
+    capturethread.h
+    capturethread.cpp
+    MapObject.h
+    MapObject.cpp
+)
+
+# Используйте qt_add_executable только с Qt6
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_add_executable(Screen MANUAL_FINALIZATION ${PROJECT_SOURCES})
+else()
+    if(ANDROID)
+        add_library(Screen SHARED ${PROJECT_SOURCES})
+    else()
+        add_executable(Screen ${PROJECT_SOURCES})
+    endif()
+endif()
+
+target_link_libraries(Screen PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Gui
+    curl # Явно указываем компоновщику искать libcurl
+)
+
+# Проверки для версий Qt 6.1.0+ для BUNDLE_ID_OPTION и qt_finalize_executable
+if(QT_VERSION VERSION_LESS 6.1.0)
+    set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.Screen)
+endif()
+
+set_target_properties(Screen PROPERTIES
+    ${BUNDLE_ID_OPTION}
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+)
+
+include(GNUInstallDirs)
+
+install(TARGETS Screen
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(Screen)
+endif()

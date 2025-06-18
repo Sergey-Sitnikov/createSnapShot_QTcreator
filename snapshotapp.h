@@ -21,8 +21,8 @@
 #include <filesystem>
 #include <iostream>
 
-#include "MapObject.h" // Включите, если MapObject вынесен в отдельный файл
-#include "capturethread.h" // Включите заголовочный файл потока
+#include "MapObject.h" 
+#include "capturethread.h" //заголовочный файл потока
 
 // Forward declaration для CURL, если curl_global_init/cleanup используются здесь
 // struct CURL; // Не нужно, если используем только функции из curl.h, которые определены с extern "C"

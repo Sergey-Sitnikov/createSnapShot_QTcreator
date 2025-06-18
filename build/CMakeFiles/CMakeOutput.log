@@ -1,0 +1,22 @@
+The system is: Linux - 6.8.0-47-generic - x86_64
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /usr/bin/x86_64-w64-mingw32-g++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.exe"
+
+The CXX compiler identification is GNU, found in "/home/ssv/code/Screen/build/CMakeFiles/3.24.0/CompilerIdCXX/a.exe"
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/ssv/code/Screen/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/home/ssv/.espressif/tools/ninja/1.11.1/ninja cmTC_33362 && [1/2] Building CXX object CMakeFiles/cmTC_33362.dir/testCXXCompiler.cxx.o
+[2/2] Linking CXX executable cmTC_33362
+
+
+

@@ -14,6 +14,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Screen.dir/snapshotapp.cpp.o.d"
   "Screen"
   "Screen.pdb"
+  "Screen_autogen/mocs_compilation.cpp"
+  "Screen_autogen/timestamp"
 )
 
 # Per-language clean rules from dependency scanning.

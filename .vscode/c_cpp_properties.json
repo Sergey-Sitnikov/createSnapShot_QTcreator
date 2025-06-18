@@ -1,0 +1,32 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                // Общий путь к корневой директории Qt5
+                "/usr/include/x86_64-linux-gnu/qt5",
+                // Пути к конкретным модулям Qt, которые вы используете
+                "/usr/include/x86_64-linux-gnu/qt5/QtCore",
+                "/usr/include/x86_64-linux-gnu/qt5/QtGui",
+                "/usr/include/x86_64-linux-gnu/qt5/QtWidgets"
+                // Добавьте другие модули, если используете
+                // "/usr/include/x86_64-linux-gnu/qt5/QtNetwork",
+                // "/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport",
+
+                // Пути к сгенерированным файлам (например, moc_*.cpp) - это ОЧЕНЬ ВАЖНО,
+                // если вы используете Q_OBJECT и компилируете проект с помощью CMake/QMake
+                // Вам нужно будет указать путь к директории сборки, где эти файлы генерируются.
+                // Например, если ваш билд в ${workspaceFolder}/build:
+                // "${workspaceFolder}/build",
+                // Или если moc_*.cpp генерируются прямо в папках с исходниками (менее типично):
+                // "${workspaceFolder}"
+            ],
+            "defines": [], // Здесь тоже могут понадобиться defines, но лучше через систему сборки
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-x64"
+        }
+    ],
+    "version": 4
+}
