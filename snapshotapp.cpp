@@ -1,5 +1,5 @@
 #include "snapshotapp.h"
-#include "MapObject.h" // Включите, если MapObject вынесен в отдельный файл
+#include "MapObject.h"     // Включите, если MapObject вынесен в отдельный файл
 #include "capturethread.h" // Включите заголовочный файл потока
 
 #include <curl/curl.h> // Включите здесь для curl_global_init/cleanup
@@ -44,7 +44,7 @@ SnapshotApp::SnapshotApp(QWidget *parent) : QWidget(parent), captureThread(nullp
     QPushButton *browseObjectDirButton = new QPushButton("Обзор...");
     connect(browseObjectDirButton, &QPushButton::clicked, this, &SnapshotApp::browseObjectDirectory);
     objectDirLayout->addSpacing(5);
-    objectDirLayout->addWidget(browseObjectDirButton);
+    // objectDirLayout->addWidget(browseObjectDirButton);
     objectGroupLayout->addLayout(objectDirLayout);
 
     addMapObjectButton = new QPushButton("Добавить объект");
@@ -77,7 +77,7 @@ SnapshotApp::SnapshotApp(QWidget *parent) : QWidget(parent), captureThread(nullp
     settingsLayout->addWidget(new QLabel("Время окончания (hh:mm):"));
     settingsLayout->addWidget(endTimeEdit);
 
-    intervalEdit = new QLineEdit("60"); // 1 час
+    intervalEdit = new QLineEdit("60");                           // 1 час
     intervalEdit->setValidator(new QIntValidator(1, 1440, this)); // от 1 мин до 24 часов
     settingsLayout->addWidget(new QLabel("Интервал съемки (м):"));
     settingsLayout->addWidget(intervalEdit);
@@ -93,10 +93,13 @@ SnapshotApp::SnapshotApp(QWidget *parent) : QWidget(parent), captureThread(nullp
 
     stopButton = new QPushButton("Остановить съемку");
     connect(stopButton, &QPushButton::clicked, this, &SnapshotApp::stopCapture);
-    controlButtonsLayout->addWidget(stopButton);
+    // controlButtonsLayout->addWidget(stopButton);
 
     mainLayout->addLayout(controlButtonsLayout);
     setLayout(mainLayout);
+
+    statsTextEdit = new QTextEdit();
+    mainLayout->addWidget(statsTextEdit);
 
     // Обновление пути сохранения объекта при изменении имени
     connect(objectNameEdit, &QLineEdit::textChanged, this, &SnapshotApp::updateObjectSaveDir);
@@ -173,6 +176,11 @@ void SnapshotApp::onAddMapObject()
     radiusEdit->setText("5");
 
     std::cout << "Добавлен объект: " << newObj.name << " в каталог " << newObj.save_directory << std::endl;
+    // QString info = QString("Добавлен объект: ") + newObj.name + QString(" в каталог ") + newObj.save_directory;
+    QString info = QString("Добавлен объект: %1 в каталог %2")
+                       .arg(QString::fromStdString(newObj.name))
+                       .arg(QString::fromStdString(newObj.save_directory));
+    updateStatistics(info);
 }
 
 void SnapshotApp::onRemoveMapObject()
@@ -285,6 +293,10 @@ void SnapshotApp::browseObjectDirectory()
     if (currentObjectDir.isEmpty())
     {
         currentObjectDir = "./screenshots_output/" + objectNameEdit->text().trimmed();
+        QString info = QString("Добавлен путь: %1")
+                           .arg(currentObjectDir);
+
+        updateStatistics(info);
     }
 
     QString directory = QFileDialog::getExistingDirectory(this, "Выбор каталога для объекта", currentObjectDir);
@@ -307,4 +319,10 @@ void SnapshotApp::updateObjectSaveDir(const QString &name)
     safe_name.replace("/", "_");
 
     objectSaveDirEdit->setText(base_dir + safe_name);
+}
+
+void SnapshotApp::updateStatistics(const QString &stats)
+// void SnapshotApp::updateStatistics(const QString &stats)
+{
+    statsTextEdit->append(stats);
 }

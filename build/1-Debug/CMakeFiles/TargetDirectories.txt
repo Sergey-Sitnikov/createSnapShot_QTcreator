@@ -1,8 +1,0 @@
-/home/ssv/code/Screen/build/1-Debug/CMakeFiles/Screen.dir
-/home/ssv/code/Screen/build/1-Debug/CMakeFiles/edit_cache.dir
-/home/ssv/code/Screen/build/1-Debug/CMakeFiles/rebuild_cache.dir
-/home/ssv/code/Screen/build/1-Debug/CMakeFiles/list_install_components.dir
-/home/ssv/code/Screen/build/1-Debug/CMakeFiles/install.dir
-/home/ssv/code/Screen/build/1-Debug/CMakeFiles/install/local.dir
-/home/ssv/code/Screen/build/1-Debug/CMakeFiles/install/strip.dir
-/home/ssv/code/Screen/build/1-Debug/CMakeFiles/Screen_autogen.dir

@@ -15,6 +15,7 @@
 #include <QIntValidator>
 #include <QDoubleValidator>
 #include <QGroupBox>
+#include <QTextEdit>
 
 #include <string>
 #include <vector>
@@ -44,6 +45,7 @@ private slots:
     void stopCapture();
     void browseObjectDirectory();
     void updateObjectSaveDir(const QString &name);
+    void updateStatistics(const QString &stats);
 
 private:
     // Элементы GUI для добавления объекта
@@ -70,6 +72,8 @@ private:
     QPushButton *stopButton;
 
     CaptureThread *captureThread; // Указатель на поток захвата
+
+    QTextEdit *statsTextEdit;
 };
 
 #endif // SNAPSHOTAPP_H

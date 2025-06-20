@@ -11,6 +11,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Укажите путь к CURL
 set(CMAKE_PREFIX_PATH "/home/ssv/curl-7.84.0")
+set(CMAKE_BUILD_TYPE Debug)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Core Gui)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core Gui)

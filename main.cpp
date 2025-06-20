@@ -1,12 +1,13 @@
 #include <QApplication>
 #include "snapshotapp.h" // Включите заголовочный файл SnapshotApp
 
+std::string base_screenshot_dir = "./screenshots_output";
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     std::locale::global(std::locale("C")); // Для корректного преобразования чисел в строки (точка как разделитель)
 
-    std::string base_screenshot_dir = "./screenshots_output";
     std::error_code ec;
     if (!std::filesystem::exists(base_screenshot_dir))
     {
@@ -18,7 +19,7 @@ int main(int argc, char *argv[])
     }
 
     SnapshotApp window;
-    window.resize(500, 750);
+    window.resize(700, 750);
     window.show();
 
     return app.exec();

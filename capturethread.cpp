@@ -1,6 +1,6 @@
 #include "capturethread.h"
 #include "snapshotapp.h" // Если SnapshotApp содержит MapObject или другие необходимые определения
-#include "MapObject.h" // Включите, если MapObject вынесен в отдельный файл
+#include "MapObject.h"   // Включите, если MapObject вынесен в отдельный файл
 
 // Вспомогательная функция для объединения изображений (реализация)
 #include <QDir>
@@ -162,11 +162,11 @@ CaptureThread::CaptureThread(std::vector<MapObject> objects,
                              std::string en_time,
                              QObject *parent)
     : QThread(parent),
-    m_mapObjects(std::move(objects)),
-    m_capture_interval_sec(interval),
-    m_start_time_str(std::move(st_time)),
-    m_end_time_str(std::move(en_time)),
-    running(false) {}
+      m_mapObjects(std::move(objects)),
+      m_capture_interval_sec(interval),
+      m_start_time_str(std::move(st_time)),
+      m_end_time_str(std::move(en_time)),
+      running(false) {}
 
 void CaptureThread::stop()
 {
@@ -268,21 +268,24 @@ void CaptureThread::run()
             std::time_t now_c = std::chrono::system_clock::to_time_t(now);
             std::tm *local_tm = std::localtime(&now_c);
 
-            if (m_capture_interval_sec > 0) {
+            if (m_capture_interval_sec > 0)
+            {
                 int seconds_to_wait = m_capture_interval_sec;
-                if (m_capture_interval_sec % 3600 == 0 && local_tm && local_tm->tm_min > 1) {
+                if (m_capture_interval_sec % 3600 == 0 && local_tm && local_tm->tm_min > 1)
+                {
                     int minutes_to_next_hour = 60 - local_tm->tm_min;
                     seconds_to_wait = minutes_to_next_hour * 60 + 60;
                 }
                 sleepAndCheckRunning(seconds_to_wait);
-            } else {
+            }
+            else
+            {
                 sleepAndCheckRunning(60);
             }
         }
     } // <-- Закрывающая скобка для CaptureThread::run()
     // Здесь должен быть конец CaptureThread::run(),
     // а остальные методы должны быть ниже, вне этой функции.
-
 }
 
 // Реализации методов класса CaptureThread должны идти здесь:
@@ -356,7 +359,8 @@ void CaptureThread::generateCoordinatesForObject(const MapObject &obj, std::vect
     int num_steps_from_center_lat = static_cast<int>(std::floor(span_from_center_lat_deg / step_deg_y));
     int num_steps_from_center_lon = static_cast<int>(std::floor(span_from_center_lon_deg / step_deg_x));
     int N_grid = std::max(1, 2 * std::max(num_steps_from_center_lat, num_steps_from_center_lon) + 1);
-    if (N_grid == 0) N_grid = 1;
+    if (N_grid == 0)
+        N_grid = 1;
     double start_lat = lat0 - (N_grid - 1) / 2.0 * step_deg_y - step_deg_y / 2.0;
     double start_lon = lon0 - (N_grid - 1) / 2.0 * step_deg_x - step_deg_x / 2.0;
     std::cout << "Для объекта '" << obj.name << "': Центр(" << lat0 << ", " << lon0 << "), R=" << r_km
@@ -419,7 +423,11 @@ void CaptureThread::createSnapshot(std::pair<double, double> bottom_left_coord, 
                 }
                 else
                 {
-                    // std::cout << "Снимок сохранен: " << file_name << std::endl; // Слишком много логов
+                    std::cout << "Снимок сохранен: " << file_name << std::endl; // Слишком много логов
+                    // QString info = QString("Снимок сохранен: %1")
+                    //                    .arg(QString::fromStdString(file_name));
+
+                    // updateStatistics(info);
                 }
             }
             else
